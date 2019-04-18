@@ -1,0 +1,440 @@
+swagger: "2.0"
+info:
+  description: "All routes of MY BOOKING SERVICE described"
+  version: "1.0.0"
+  title: "My booking service"
+basePath: "/"
+tags:
+- name: "REGISTRATION"
+  description: "registration service"
+- name: "USER"
+  description: "user service"
+- name: "BACK OFFICE"
+  description: "back office service"
+- name: "FRONT OFFICE"
+  description: "front office service"
+paths:
+# =================================================================== REGISTRATION
+  /hello_registration:
+    get:
+      tags:
+      - "REGISTRATION"
+      summary: "registration service check up"
+      description: "route to check registration service is up"
+      responses:
+        200:
+          description: "registration is up"
+  /user:
+    post:
+      tags:
+      - "REGISTRATION"
+      summary: "route to register an user"
+      description: "route to register an user"
+      parameters:
+      - name: "email"
+        description: "user mail address"
+        required: true
+        type: "string"
+      - name: "password"
+        description: "user password"
+        required: true
+        type: "string"
+      - name: "firstname"
+        description: "user firstname"
+        required: true
+        type: "string"
+      - name: "lastname"
+        description: "user lastname"
+        required: true
+        type: "string"
+      - name: "age"
+        description: "user age"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "user created successfully"
+        409:
+          description: "user already exists"
+  /send-email-confirmation:
+    post:
+      tags:
+      - "REGISTRATION"
+      summary: "route to send confirmation email to user"
+      description: "route to send confirmation email to user"
+      parameters:
+      - name: "email"
+        description: "user mail address"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "email sent to USER successfully"
+# =================================================================== User
+  /hello_user:
+    get:
+      tags:
+      - "USER"
+      summary: "user service check up"
+      description: "route to check user service is up"
+      responses:
+        200:
+          description: "registration is up"
+  /user/{token}:
+    get:
+      tags:
+      - "USER"
+      summary: "route to get an user info from a token"
+      description: "route to get an user info from a token"
+      parameters:
+      - name: "token"
+        description: "UID provided by user"
+        required: true
+      responses:
+        200:
+          description: "registration is up"
+  /reset-password/{token}:
+    get:
+      tags:
+      - "USER"
+      summary: "route to send a password reset confirmation to an user"
+      description: "route to send a password reset confirmation to an user"
+      parameters:
+      - name: "token"
+        description: "UID stored in session"
+        required: true
+      responses:
+        200:
+          description: "Password reset confirmation has been sent to user"
+  /user/login:
+    post:
+      tags:
+      - "USER"
+      summary: "route to log an user"
+      description: "route to log an user"
+      parameters:
+      - name: "email"
+        description: "user mail address"
+        required: true
+        type: "string"
+      - name: "password"
+        description: "user password"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "user ID"
+        401:
+          description: "user already logged in"
+  /user/delete:
+    post:
+      tags:
+      - "USER"
+      summary: "route to delete current user"
+      description: "route to delete current user"
+      parameters:
+      - name: "email"
+        description: "user mail address"
+        required: true
+        type: "string"
+      - name: "password"
+        description: "user password"
+        required: true
+        type: "string"
+      - name: "token"
+        description: "UID stored in session"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "EMAIL has been successfully deleted"
+# =================================================================== Back Office
+  /hello_back_office_service:
+    get:
+      tags:
+      - "BACK OFFICE"
+      summary: "BACK OFFICE service check up"
+      description: "route to check BACK OFFICE service is up"
+      responses:
+        200:
+          description: "BACK OFFICE is up"
+  /hostel:
+    post:
+      tags:
+      - "BACK OFFICE"
+      summary: "route to create a hostel"
+      description: "route to create a hostel"
+      parameters:
+      - name: "name"
+        description: "hostel name"
+        required: true
+        type: "string"
+      - name: "stars"
+        description: "stars number"
+        required: true
+        type: "string"
+      - name: "city"
+        description: "hostel city"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Hostel added successfully"
+        409:
+          description: "hostel already exists"
+  /hostel/{hostelId}:
+    put:
+      tags:
+      - "BACK OFFICE"
+      summary: "route update hostel"
+      description: "route update hostel"
+      parameters:
+      - name: "hostelId"
+        in: "path"
+        description: "hostel id to update data"
+        required: true
+        type: "string"
+      - name: "hostelObject"
+        in: "path"
+        description: "hostel object to update"
+        required: true
+        type: "object"
+      responses:
+        200:
+          description: "hostel updated successfully"
+        404:
+          description: "hostel not found"
+    delete:
+      tags:
+      - "BACK OFFICE"
+      summary: "route delete hostel"
+      description: "route delete hostel"
+      parameters:
+      - name: "hostelId"
+        in: "path"
+        description: "hostel id to update data"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "hostel deleted successfully"
+        404:
+          description: "hostel not found"
+  /room:
+    post:
+      tags:
+      - "BACK OFFICE"
+      summary: "route ADD room to a specific hostel"
+      description: "route ADD room to a specific hostel"
+      parameters:
+      - name: "hostelId"
+        description: "hostel id"
+        required: true
+        type: "string"
+      - name: "name"
+        description: "hostel name"
+        required: true
+        type: "string"
+      - name: "type"
+        description: "hostel type"
+        required: true
+        type: "string"
+      - name: "price"
+        description: "hostel price"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "room added successfully"
+        409:
+          description: "room already exists"
+  /room/{roomId}:
+    put:
+      tags:
+      - "BACK OFFICE"
+      summary: "route update room"
+      description: "route update room"
+      parameters:
+      - name: "roomId"
+        in: "path"
+        description: "room id to update data"
+        required: true
+        type: "string"
+      - name: "roomObject"
+        in: "path"
+        description: "room object to update"
+        required: true
+        type: "object"
+      responses:
+        200:
+          description: "room updated successfully"
+        404:
+          description: "room not found"
+    delete:
+      tags:
+      - "BACK OFFICE"
+      summary: "route delete room"
+      description: "route delete room"
+      parameters:
+      - name: "roomId"
+        in: "path"
+        description: "room id to update data"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "room deleted successfully"
+        404:
+          description: "room not found"
+  /parking:
+    post:
+      tags:
+      - "BACK OFFICE"
+      summary: "route ADD parking to a specific hostel"
+      description: "route ADD parking to a specific hostel"
+      parameters:
+      - name: "hostelId"
+        description: "Hostel ID"
+        required: true
+        type: "string"
+      - name: "price"
+        description: "Parking price"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "Parking added successfully"
+        409:
+          description: "Parking already exists"
+  /parking/{parkingId}:
+    put:
+      tags:
+      - "BACK OFFICE"
+      summary: "route update parking"
+      description: "route update parking"
+      parameters:
+      - name: "parkingId"
+        in: "path"
+        description: "parking id to update data"
+        required: true
+        type: "string"
+      - name: "parkingObject"
+        in: "path"
+        description: "parking object to update"
+        required: true
+        type: "object"
+      responses:
+        200:
+          description: "parking updated successfully"
+        404:
+          description: "parking not found"
+    delete:
+      tags:
+      - "BACK OFFICE"
+      summary: "route delete parking"
+      description: "route delete parking"
+      parameters:
+      - name: "parkingId"
+        in: "path"
+        description: "parking id to update data"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "parking deleted successfully"
+        404:
+          description: "parking not found"
+# =================================================================== Front Office
+  /front/hello_front_office_service:
+    get:
+      tags:
+      - "FRONT OFFICE"
+      summary: "Front office service check up"
+      description: "Route to check front office service is up"
+      responses:
+        200:
+          description: "Front office is up"
+  /front/hostel:
+    get:
+      tags:
+      - "FRONT OFFICE"
+      summary: "Route to get a hostel info"
+      description: "Route to get a hostel info"
+      parameters:
+      - name: "hostelID"
+        description: "Hostel ID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Hostel object returned"
+        409:
+          description: "Wrong hostel ID"
+  /front/room:
+    get:
+      tags:
+      - "FRONT OFFICE"
+      summary: "Route to get a room info"
+      description: "Route to get a room info"
+      parameters:
+      - name: "hostelID"
+        description: "Hostel ID"
+        required: true
+        type: "string"
+      - name: "roomID"
+        description: "Room ID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Room object returned"
+        409:
+          description: "Wrong hostel ID or room ID"
+  /front/room-type:
+    get:
+      tags:
+      - "FRONT OFFICE"
+      summary: "Route to get a room type info"
+      description: "Route to get a room type info"
+      parameters:
+      - name: "roomTypeID"
+        description: "Room Type ID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Room Type object returned"
+        409:
+          description: "Wrong room type ID"
+  /front/book_room:
+    post:
+      tags:
+      - "FRONT OFFICE"
+      summary: "Route to book a room"
+      description: "Route to book a room"
+      parameters:
+      - name: "roomID"
+        description: "Room ID"
+        required: true
+        type: "string"
+      - name: "startDate"
+        description: "First date of booking"
+        required: true
+        type: "date"
+      - name: "endDate"
+        description: "Last date of booking"
+        required: true
+        type: "date"
+      - name: "userID"
+        description: "User ID"
+        required: true
+        type: "string"
+      - name: "parkingID"
+        description: "Parking ID"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Room booked successfully"
+        409:
+          description: "Fail to book room"
